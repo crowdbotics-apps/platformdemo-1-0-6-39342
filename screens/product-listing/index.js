@@ -1,7 +1,12 @@
+import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+import { api_v1_recipe_list } from "./../../store/platformdemoAPI/recipes.slice.js";
+import { useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Image, Pressable, FlatList } from "react-native";
 
 const ProductListing = () => {
+  const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   useEffect(() => {
@@ -26,6 +31,9 @@ const ProductListing = () => {
       count: 1,
       image: require("./assets/productImage.png")
     }]);
+    dispatch(api_v1_recipe_list({
+      name: "name"
+    }));
   }, []);
 
   const handleProductSelect = product => {
@@ -149,6 +157,10 @@ const styles = StyleSheet.create({
 export default ProductListing;
 
 const Button = params => {
+  const {
+    entities: item
+  } = useSelector(state => state.item);
+  const navigation = useNavigation();
   const backgroundColor = params.backgroundColor || "#000";
   const textColor = params.textColor || "#fff";
   const btnStyle = {
@@ -160,14 +172,18 @@ const Button = params => {
     color: textColor
   };
   return <View style={[buttonStyles.btnContainer, params.style]}>
-      <View style={!params.hideShadow ? buttonStyles.shadowContainer : null}>
+      <Pressable><Pressable onPress={() => {
+        navigation.navigate("aboutTheApp", {
+          item: item
+        });
+      }}><View style={!params.hideShadow ? buttonStyles.shadowContainer : null}>
         <Pressable style={[buttonStyles.btn, btnStyle]} onPress={params.onPress}>
           <Text style={[buttonStyles.btnText, btnText]}>
             {params.buttonText}
           </Text>
           <View style={styles.childrenContainer}>{params.children}</View>
         </Pressable>
-      </View>
+      </View></Pressable></Pressable>
     </View>;
 };
 
