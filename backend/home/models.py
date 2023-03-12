@@ -9,3 +9,4 @@ class Recipe(models.Model):
     rating = models.IntegerField()
     image = models.CharField(max_length=256,)
     owner = models.ForeignKey("users.User",on_delete=models.CASCADE,related_name="recipe_owner",)
+    created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True,)
