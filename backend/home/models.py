@@ -9,4 +9,8 @@ class Recipe(models.Model):
     rating = models.IntegerField()
     image = models.CharField(max_length=256,)
     owner = models.ForeignKey("users.User",on_delete=models.CASCADE,related_name="recipe_owner",)
-    created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True,)
+    created_at = models.DateTimeField(null=True,blank=True,auto_now_add=True,)
+class Chef(models.Model):
+    'Generated Model'
+    profile_image = models.CharField(max_length=256,)
+    user = models.ForeignKey("users.User",on_delete=models.CASCADE,related_name="chef_user",)
